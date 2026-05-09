@@ -22,7 +22,7 @@ public class NonPreemptivePriorityScheduler {
 
             Process current = null;
 
-            // ignore arrival completely
+            
             for (Process p : list) {
 
                 if (p.arrival <= time && !p.isFinished()) {
@@ -38,12 +38,12 @@ public class NonPreemptivePriorityScheduler {
 
             if (current == null) break;
 
-            //  response time (arrival = 0)
+           
             if (current.response == -1) {
                 current.response = time;
             }
 
-            // execute full
+           
             while (current.remaining > 0) {
                 gantt.add(current.id);
                 current.remaining--;
@@ -54,7 +54,7 @@ public class NonPreemptivePriorityScheduler {
 
             current.completion = time;
 
-            // assume arrival = 0
+            
             current.turnaround = current.completion;
             current.waiting = current.turnaround - current.burst;
         }
