@@ -280,7 +280,7 @@ public class guiClass extends JFrame {
             conclusion += "The same algorithm optimized both WT and TAT, showing overall efficiency.\n";
         }
 
-        // ================= COMPARISON =================
+        // COMPARISON 
         String comparison = "\n========== COMPARISON SUMMARY ==========\n";
 
         comparison += String.format("%-30s%-15s%-15s%-15s\n",
