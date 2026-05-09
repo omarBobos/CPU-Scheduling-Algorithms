@@ -52,14 +52,14 @@ public class guiClass extends JFrame {
 
         add(top, BorderLayout.NORTH);
 
-        // ================= TABLE =================
+        // TABLE ///
         model = new DefaultTableModel();
         model.setColumnIdentifiers(new String[]{"PID", "Arrival", "Burst", "Priority"});
 
         table = new JTable(model);
         JScrollPane tableScroll = new JScrollPane(table);
 
-        // ================= TEXT AREA =================
+        // TEXT AREA 
         area = new JTextArea();
         area.setEditable(false);
         area.setLineWrap(true);
@@ -69,13 +69,13 @@ public class guiClass extends JFrame {
         JScrollPane textScroll = new JScrollPane(area);
         textScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        // ================= SPLIT PANE =================
+        // SPLIT PANE 
         JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, tableScroll, textScroll);
         split.setDividerLocation(300);
 
         add(split, BorderLayout.CENTER);
 
-        // ================= BUTTONS =================
+        //  BUTTONS 
         JPanel buttons = new JPanel();
 
         JButton btnRun = new JButton("Run");
@@ -88,14 +88,14 @@ public class guiClass extends JFrame {
 
         add(buttons, BorderLayout.SOUTH);
 
-        // ================= ACTIONS =================
+        // ACTIONS//
         btnAdd.addActionListener(e -> addProcess());
         btnDelete.addActionListener(e -> deleteRow());
         btnClear.addActionListener(e -> clearAll());
         btnRun.addActionListener(e -> runAlgorithms());
     }
 
-    // ================= ADD PROCESS =================
+    // ADD PROCESS //
     void addProcess() {
 
         try {
@@ -167,20 +167,20 @@ public class guiClass extends JFrame {
         }
     }
 
-    // ================= DELETE =================
+    // DELETE
     void deleteRow() {
         int row = table.getSelectedRow();
         if (row != -1)
             model.removeRow(row);
     }
 
-    // ================= CLEAR =================
+    //  CLEAR
     void clearAll() {
         model.setRowCount(0);
         area.setText("");
     }
 
-    // ================= GET PROCESSES =================
+   
     List<Process> getProcesses() {
 
         List<Process> list = new ArrayList<>();
@@ -198,7 +198,7 @@ public class guiClass extends JFrame {
         return list;
     }
 
-    // ================= RUN =================
+  
     void runAlgorithms() {
 
         if (model.getRowCount() == 0) {
@@ -220,19 +220,19 @@ public class guiClass extends JFrame {
             nonSJF.add(new Process(p.id, p.arrival, p.burst, p.priority));
         }
 
-        // ================= RUN =================
+      
         List<String> g1 = SJFScheduler.run(sjf);
         List<String> g2 = PriorityScheduler.run(pri);
         List<String> g3 = NonPreemptivePriorityScheduler.run(nonPri);
         List<String> g4 = NonPreemptiveSJF.run(nonSJF);
 
-        // ================= RESULTS =================
+        //  RESULTS
         String r1 = MetricsCalc.generate(sjf, "PREEMPTIVE SJF", String.join(" | ", g1));
         String r2 = MetricsCalc.generate(pri, "PREEMPTIVE PRIORITY", String.join(" | ", g2));
         String r3 = MetricsCalc.generate(nonPri, "NON-PREEMPTIVE PRIORITY", String.join(" | ", g3));
         String r4 = MetricsCalc.generate(nonSJF, "NON-PREEMPTIVE SJF", String.join(" | ", g4));
 
-        // ================= AVERAGES =================
+        //AVERAGES//
         double[] a1 = MetricsCalc.getAverages(sjf);
         double[] a2 = MetricsCalc.getAverages(pri);
         double[] a3 = MetricsCalc.getAverages(nonPri);
@@ -300,10 +300,10 @@ public class guiClass extends JFrame {
         comparison += String.format("%-30s%-15.2f%-15.2f%-15.2f\n",
                 "Non-Preemptive SJF", a4[0], a4[1], a4[2]);
 
-        // ================= DISPLAY =================
+        // DISPLAY 
         area.setText(r1 + "\n\n" + r2 + "\n\n" + r3 + "\n\n" + r4 + comparison + conclusion);
 
-        // ================= GANTT =================
+        // GANTT
         new GanttChart(g1, "SJF");
         new GanttChart(g2, "Priority");
         new GanttChart(g3, "Non-Preemptive Priority");
